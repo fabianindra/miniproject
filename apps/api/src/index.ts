@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 
 import authRouter from "./routers/auth.router"
 import userRouter from "./routers/auth.router"
-import postRouter from "./routers/post.router";
+import eventRouter from "./routers/event.router";
 
 dotenv.config()
 
@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 
 app.use("/api/auth", authRouter)
 app.use("/api/users", userRouter)
-app.use("/api/posts", postRouter)
+app.use("/api/events", eventRouter)
 
 const PORT = 6570
 

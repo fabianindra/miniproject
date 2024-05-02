@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { PrismaClient } from "@prisma/client"
 import { compare, genSalt, hash } from "bcrypt" 
 import { sign } from 'jsonwebtoken'
+import generateReferralCode from "@/referralCode"
 
 type User = {
     email: string;
@@ -32,6 +33,7 @@ export const register = async (req: Request, res: Response) => {
     try {
 
         const body: User = req.body
+        const refCode = generateReferralCode();
 
         const salt = await genSalt(10)
         const hashedPassword = await hash(body.password, salt)
@@ -54,7 +56,7 @@ export const register = async (req: Request, res: Response) => {
                 name: body.name,
                 email: body.email,
                 password: hashedPassword,
-                code: body.code,
+                code: refCode,
                 refererCode: body.refererCode,
             }
         })

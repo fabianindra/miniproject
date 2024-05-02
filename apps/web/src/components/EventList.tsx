@@ -5,9 +5,8 @@ import axios from 'axios';
 
 interface Event {
   id: number;
-  name: string;
+  title: string;
   date: string;
-  // Add more properties as needed
 }
 
 const EventList: React.FC = () => {
@@ -16,8 +15,7 @@ const EventList: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // Fetch events from the backend API
-        const response = await axios.get('/api/events');
+        const response = await axios.get('http://localhost:6570/api/events');
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -34,14 +32,14 @@ const EventList: React.FC = () => {
         <ul>
           {events.map((event) => (
             <li key={event.id} className="border-b py-2">
-              <p className="text-xl">{event.name}</p>
+              <p className="text-xl">{event.title}</p>
               <p className="text-white-600">{event.date}</p>
               {/* Add more event details here */}
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-whitw-600">No events found.</p>
+        <p className="text-white-600">No events found.</p>
       )}
     </div>
   );

@@ -10,14 +10,16 @@ export default function Nav() {
                 aria-label="Global"
             >
                 <div className="flex lg:flex-1">
-                    <a href="/" className="-m-1.5 p-1.5">
+                    <Link href="/" className="-m-1.5 p-1.5">
                         Mini Project Fabian
-                    </a>
+                    </Link>
                 </div>
-                <hr />
-                <Link href={"/eventlist"}>Events</Link>
-                <hr />
-                <Link href={"/dashboard"}>Dashboard</Link>
+                <div>
+                    <Link href="/eventlist">Events</Link>
+                    <br />
+                    <Link href="/dashboard">Dashboard</Link>
+                </div>
+               
             </nav>
         </header>
     )

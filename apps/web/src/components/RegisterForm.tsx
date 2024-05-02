@@ -72,7 +72,7 @@ const RegisterForm: React.FC = () => {
         <label htmlFor="refererCode">Referer Code:  </label>
         <input type="text" id="refererCode" name="refererCode" value={formData.refererCode} onChange={handleChange} />
       </div>
-      
+      <br />
       <button type="submit">Register</button>
     </form>
   );
