@@ -14,6 +14,9 @@ export default function Nav() {
                         Mini Project Fabian
                     </a>
                 </div>
+                <hr />
+                <Link href={"/eventlist"}>Events</Link>
+                <hr />
                 <Link href={"/dashboard"}>Dashboard</Link>
             </nav>
         </header>

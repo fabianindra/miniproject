@@ -23,7 +23,7 @@ const PORT = 6570
 
 app.get("/", (req: Request, res: Response) => {
   res.send({
-    message: "REST API sosmed"
+    message: "REST API running"
   })
 })
 
