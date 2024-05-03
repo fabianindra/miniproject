@@ -21,7 +21,8 @@ model User {
   name          String
   code          String   @unique
   refererCode   String
-  role          String   @default("user") 
+  role          String   @default("user")
+  discount      Int?
   posts         Post[]
   events        Event[]
   points        Points[]
@@ -63,11 +64,11 @@ model Event {
 }
 
 model Points {
-  id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
-  amount    Int     
+  id              Int       @id @default(autoincrement())
+  user            User      @relation(fields: [userId], references: [id])
+  userId          Int
+  amount          Int   
   changeType      String
-  transactions  Transaction[]
-  createdAt DateTime  @default(now())
+  transactions    Transaction[]
+  createdAt       DateTime  @default(now())
 }

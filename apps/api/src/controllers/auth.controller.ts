@@ -11,7 +11,8 @@ type User = {
     name: string;
     role: string;
     code: string;
-    refererCode?: string;
+    refererCode: string | null;
+    discount?: number;
 }
 
 type UserModel = {
@@ -21,7 +22,8 @@ type UserModel = {
     password: string;
     name: string;
     code: string;
-    refererCode: string;
+    refererCode: string | null;
+    discount?: number | null;
     role: string;
     createdAt: Date;
     updatedAt: Date;
@@ -45,10 +47,18 @@ export const register = async (req: Request, res: Response) => {
         try {
             if (body.refererCode) {
                 const referralUser = await prisma.user.findFirst({
-                    where: { refererCode: body.code },
+                    where: { code: body.refererCode },
                 });
                 if (!referralUser) {
                     return res.status(400).json({ error: 'Invalid referral code' });
+                } else {
+                    await prisma.points.create({
+                        data: {
+                            userId: referralUser.id,
+                            amount: 10000,
+                            changeType: 'in'
+                        }
+                    });
                 }
             }
         } catch (err) {
@@ -69,34 +79,23 @@ export const register = async (req: Request, res: Response) => {
             });
         }
 
+        let discountAmount = 0;
+        if (body.refererCode) {
+            discountAmount = 10;
+        }
+
         const register = await prisma.user.create({
             data: {
                 username: body.username,
                 name: body.name,
                 email: body.email,
                 password: hashedPassword,
-                code: refCode, // Assign refCode here
+                code: refCode,
                 refererCode: body.refererCode || "",
+                discount: discountAmount,
             }
         });
 
-        if (!body.refererCode) {
-            await prisma.points.create({
-                data: {
-                    userId: register.id,
-                    amount: 0,
-                    changeType: 'in',
-                }
-            });
-        } else {
-            await prisma.points.create({
-                data: {
-                    userId: register.id,
-                    amount: 100,
-                    changeType: 'in',
-                }
-            });
-        }
 
         return res.send({
             message: "success",
