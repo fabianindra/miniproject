@@ -1,7 +1,18 @@
+"use client"
+
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 export default function Nav() {
+    const [userRole, setUserRole] = useState<string | undefined>(undefined)
+    const dashboardHref = userRole ? (userRole === 'admin' ? '/admin-dashboard' : '/user-dashboard') : '/no-dashboard';
+  
+    useEffect(() => {
+      const role = Cookies.get('role');
+      setUserRole(role);
+    }, []);
+
     return (
         <header>
             <nav
@@ -17,7 +28,11 @@ export default function Nav() {
                 <div>
                     <Link href="/eventlist">Events</Link>
                     <br />
-                    <Link href="/dashboard">Dashboard</Link>
+                    <div>
+                        <Link href={dashboardHref} passHref>
+                            <div className="link">DASHBOARD</div>
+                        </Link>
+                    </div>
                 </div>
                
             </nav>

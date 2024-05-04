@@ -84,6 +84,8 @@ export const register = async (req: Request, res: Response) => {
             discountAmount = 10;
         }
 
+        const role = body.role === 'admin' ? 'admin' : 'user';
+
         const register = await prisma.user.create({
             data: {
                 username: body.username,
@@ -93,6 +95,7 @@ export const register = async (req: Request, res: Response) => {
                 code: refCode,
                 refererCode: body.refererCode || "",
                 discount: discountAmount,
+                role: role
             }
         });
 

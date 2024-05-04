@@ -8,8 +8,8 @@ interface FormData {
   username: string;
   password: string;
   name: string;
-  code: string;
   refererCode: string;
+  role: string;
 }
 
 const RegisterForm: React.FC = () => {
@@ -18,8 +18,8 @@ const RegisterForm: React.FC = () => {
     username: '',
     password: '',
     name: '',
-    code: '',
     refererCode: '',
+    role: '',
   });
 
   const [successMessage, setSuccessMessage] = useState<string>('');
@@ -48,6 +48,13 @@ const RegisterForm: React.FC = () => {
     <form onSubmit={handleSubmit}>
       {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+      <br />
+      <h3>REGISTER</h3>
+      <br />
+      <div>
+        <label htmlFor="name">Name: </label>
+        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+      </div>
       <div>
         <label htmlFor="email">Email:   </label>
         <input type="text" id="email" name="email" value={formData.email} onChange={handleChange} />
@@ -60,20 +67,20 @@ const RegisterForm: React.FC = () => {
         <label htmlFor="password">Password: </label>
         <input type="text" id="password" name="password" value={formData.password} onChange={handleChange} />
       </div>
+      <br />
+      <p>if you have Referral Code: *leave empty if you dont have Referral Code*</p>
       <div>
-        <label htmlFor="name">Name: </label>
-        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
-      </div>
-      <div>
-        <label htmlFor="code">Code: </label>
-        <input type="text" id="code" name="code" value={formData.code} onChange={handleChange} />
-      </div>
-      <div>
-        <label htmlFor="refererCode">Referer Code:  </label>
+        <label htmlFor="refererCode">Referral Code:  </label>
         <input type="text" id="refererCode" name="refererCode" value={formData.refererCode} onChange={handleChange} />
       </div>
       <br />
-      <button type="submit">Register</button>
+      <p>Role: *leave empty if you dont have access*</p>
+      <div>
+        <label htmlFor="role">Role:  </label>
+        <input type="text" id="role" name="role" value={formData.role} onChange={handleChange} />
+      </div>
+      <br />
+      <button type="submit" style={{ fontSize: '1.2em', padding: '10px 20px' }}>Register</button>
     </form>
   );
 };

@@ -7,13 +7,13 @@ import Cookies from 'js-cookie';
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState<string | null>(null); // Changed type to allow null
-  const [loggedOut, setLoggedOut] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  
 
   useEffect(() => {
-    const storedToken = Cookies.get('token');
-    if (storedToken) {
-      setToken(storedToken);
+    const token = Cookies.get('token');
+    if (token) {
+      setLoggedIn(true);
     }
   }, []);
 
@@ -21,32 +21,28 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post<{ token: string }>('http://localhost:6570/api/auth/login', { email, password });
-      const { token } = response.data;
-      setToken(token);
+      const response = await axios.post<{ token: string, role: string }>('http://localhost:6570/api/auth/login', { email, password });
+      const { token, role } = response.data;
       Cookies.set('token', token, { expires: 1 });
+      Cookies.set('role', role, { expires: 1 });
+      setLoggedIn(true);
+      window.location.reload();
+      
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
 
   const handleLogout = () => {
-    setToken(null);
     Cookies.remove('token');
-    setLoggedOut(true);
+    Cookies.remove('role');
+    setLoggedIn(false);
+    window.location.reload();
   };
-
-  const axiosWithAuth = axios.create({
-    baseURL: 'http://localhost:6570/api/',
-    headers: {
-      Authorization: token ? `Bearer ${token}` : '',
-      'Content-Type': 'application/json',
-    },
-  });
 
   return (
     <>
-      {token && !loggedOut ? (
+      {loggedIn ? (
         <div>
           <p>You are logged in!</p>
           <button onClick={handleLogout}>Logout</button>
@@ -70,7 +66,6 @@ const LoginForm: React.FC = () => {
             <hr />
             <button type="submit">Login</button>
           </form>
-          {loggedOut && <p>You are logged out!</p>}
         </>
       )}
     </>
@@ -78,8 +73,3 @@ const LoginForm: React.FC = () => {
 };
 
 export default LoginForm;
-
-
-
-
-
