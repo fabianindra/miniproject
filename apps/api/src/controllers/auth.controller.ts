@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { compare, genSalt, hash } from "bcrypt";
-import { sign } from 'jsonwebtoken';
+import { JwtPayload, sign } from 'jsonwebtoken';
 import generateReferralCode from "@/referralCode";
 
 type User = {
@@ -135,12 +135,13 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const jwtPayload = { email: user.email, name: user.name, username: user.username, role: user.role };
-        const token = sign(jwtPayload, String(process.env.JWT_TOKEN), { expiresIn: "1h" });
+        const token = sign(jwtPayload, String(process.env.JWT_SECRET), { expiresIn: "1h" });
 
         return res.send({
             message: "success",
             data: user,
-            token: token
+            token: token,
+            role: user.role
         });
     } catch (err) {
         return res.send({

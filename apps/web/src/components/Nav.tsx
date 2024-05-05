@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 
 export default function Nav() {
     const [userRole, setUserRole] = useState<string | undefined>(undefined)
-    const dashboardHref = userRole ? (userRole === 'admin' ? '/admin-dashboard' : '/user-dashboard') : '/no-dashboard';
   
     useEffect(() => {
-      const role = Cookies.get('role');
-      setUserRole(role);
+      const role = localStorage.getItem('role');
+      setUserRole(role as string);
     }, []);
 
     return (
@@ -29,9 +27,16 @@ export default function Nav() {
                     <Link href="/eventlist">Events</Link>
                     <br />
                     <div>
-                        <Link href={dashboardHref} passHref>
-                            <div className="link">DASHBOARD</div>
+                    {userRole === "admin" && (
+                        <Link href="/admin-dashboard"> 
+                            <div className="link">Dashboard</div> 
                         </Link>
+                    )}
+                    {userRole === "user" && (
+                        <Link href="/user-dashboard"> 
+                            <div className="link">Dashboard</div> 
+                        </Link>
+                    )}
                     </div>
                 </div>
                

@@ -1,36 +1,28 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 
+
 type User = {
     email: string;
     username: string;
-    password: string;
     name: string;
     role: string;
-    code: string;
-    refererCode: string;
 }
 
 export const verifyToken = async (req: Request | any, res: Response, next: NextFunction) => {
-    try {
-        const token = req.header("Authorization")?.replace("Bearer ", "")
+        const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
+
         if (!token) {
             return res.status(401).send("Unauthorized")
         }
 
-        const verifiedUser = verify(token, String(process.env.JWT_TOKEN))
+        try {
+            const verifiedUser = verify(token, String(process.env.JWT_SECRET));
+            req.user = verifiedUser;
+            next();
 
-        if(!verifiedUser) {
-            return res.status(401).send("Unauthorized")
-        }
-
-        req.user = verifiedUser as any
-        next()
-    }
-    catch (err) {
-        return res.send({
-            message: JSON.stringify(err),
-        })
+    } catch (err) {
+    return res.status(401).json({ message: 'Unauthorized: Invalid token' })
     }
 }
 

@@ -11,9 +11,12 @@ const LoginForm: React.FC = () => {
   
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = localStorage.getItem('token');
     if (token) {
       setLoggedIn(true);
+
+      let roling = localStorage.getItem('role');
+      console.log(roling)
     }
   }, []);
 
@@ -21,21 +24,28 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post<{ token: string, role: string }>('http://localhost:6570/api/auth/login', { email, password });
-      const { token, role } = response.data;
-      Cookies.set('token', token, { expires: 1 });
-      Cookies.set('role', role, { expires: 1 });
+      const response = await axios.post('http://localhost:6570/api/auth/login', { email, password });
+      const { token } = response.data;
+
+      // //check response
+      // // console.log(response.data)
+      // // console.log(token)
+      // console.log(response.data)
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', response.data.role)
+
       setLoggedIn(true);
-      window.location.reload();
-      
+      // window.location.reload();
+
     } catch (error) {
       console.error('Login failed:', error);
     }
   };
 
   const handleLogout = () => {
-    Cookies.remove('token');
-    Cookies.remove('role');
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setLoggedIn(false);
     window.location.reload();
   };
