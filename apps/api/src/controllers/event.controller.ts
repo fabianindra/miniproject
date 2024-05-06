@@ -2,9 +2,9 @@ import { Request, Response } from "express"
 import { PrismaClient } from "@prisma/client"
 
 type Event = {
-    userId : number,
+    id: string,
     title : string,
-    date : Date
+    date : string,
 }
 
 const prisma = new PrismaClient()
@@ -28,16 +28,17 @@ export async function getAllEvents(req: Request, res: Response) {
 
 export async function createEvents(req: Request, res: Response) {
     try {
-
-        const {userId, title, date} : Event = req.body
+        const body : Event = req.body;
+          
+        const formattedDate = new Date(body.date);
 
         const eventData = await prisma.event.create({
             data: {
-                userId: userId,
-                title: title,
-                date: date
-            }
-        })
+                userId: parseInt(body.id, 10),
+                title: body.title,
+                date: formattedDate,
+            },
+        });
 
         return res.send({
             message: "success",

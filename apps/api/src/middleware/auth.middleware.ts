@@ -13,7 +13,7 @@ export const verifyToken = async (req: Request | any, res: Response, next: NextF
         const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 
         if (!token) {
-            return res.status(401).send("Unauthorized")
+            return res.status(401).send("Unauthorized1")
         }
 
         try {
@@ -29,7 +29,7 @@ export const verifyToken = async (req: Request | any, res: Response, next: NextF
 export const adminGuard = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
         if (req.user?.role !== "admin") {
-            return res.status(401).send("Unauthorized")
+            return res.status(401).send("Unauthorized2")
         }
         next()
     }

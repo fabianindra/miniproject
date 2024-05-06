@@ -16,7 +16,9 @@ const EventList: React.FC = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get('http://localhost:6570/api/events');
-        setEvents(response.data);
+        setEvents(response.data.data);
+        // Check response
+        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -25,22 +27,27 @@ const EventList: React.FC = () => {
     fetchEvents();
   }, []);
 
+  let content;
+  if (events.length > 0) {
+    content = (
+      <ul>
+        {events.map((upcomingEvent) => (
+          <li key={upcomingEvent.id} className="border-b py-2">
+            <p className="text-xl">{upcomingEvent.title}</p>
+            <p className="text-white-600">{upcomingEvent.date}</p>
+            {/* Add more event details here */}
+          </li>
+        ))}
+      </ul>
+    );
+  } else {
+    content = <p className="text-white-600">No events found.</p>;
+  }
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold mb-4">Event List</h2>
-      {events.length > 0 ? (
-        <ul>
-          {events.map((event) => (
-            <li key={event.id} className="border-b py-2">
-              <p className="text-xl">{event.title}</p>
-              <p className="text-white-600">{event.date}</p>
-              {/* Add more event details here */}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-white-600">No events found.</p>
-      )}
+      {content}
     </div>
   );
 };

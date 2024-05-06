@@ -5,6 +5,6 @@ import { adminGuard, verifyToken } from "../middleware/auth.middleware"
 const eventRouter = Router()
 
 eventRouter.get("/", eventController.getAllEvents)
-eventRouter.post("/", verifyToken, adminGuard, eventController.createEvents)
+eventRouter.post("/", eventController.createEvents)
 
 export default eventRouter
