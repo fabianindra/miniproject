@@ -5,6 +5,7 @@ import { verifyTokenClient } from "../verifyToken";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import axios from 'axios';
+import Image from "next/image";
 
 const DashboardPage: React.FC = () => {
     const [verified, setVerified] = useState(false);
@@ -75,12 +76,19 @@ const DashboardPage: React.FC = () => {
         } else { 
             return (
             <div>
-                <br />
-                <h1>USER DASHBOARD</h1>
-                <br />
+                <Image src={"/abstract3.jpg"} alt='' width={1080} height={200} style={{ zIndex: 0, objectFit: 'cover' }} />
+                <h1 style={{position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1}}>
+                    Participant Dashboard
+                </h1>
                 {/* Display columnCount. If columnCount is null or undefined, display 0 */}
-                <p>Referral Code: {refCode}</p>
-                <p>Member Points in Rupiah: {columnCount !== null ? columnCount : 0}</p>
+                <div style={{ background: 'white', width: '25%' }}>
+                <p style={{ color: 'black' }}>Referral Code: </p>
+                </div>
+                <h1>{refCode}</h1>
+                <div style={{ background: 'white', width: '25%' }}>
+                <p style={{ color: 'black' }}>Member Points: </p>
+                </div>
+                <h1>{columnCount !== null ? columnCount : 0}</h1>
             </div>
             );
         }}

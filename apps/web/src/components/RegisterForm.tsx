@@ -49,9 +49,7 @@ const RegisterForm: React.FC = () => {
     <form onSubmit={handleSubmit}>
       {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-      <br />
-      <h3>REGISTER</h3>
-      <br />
+
       <div>
         <label htmlFor="name">Name: </label>
         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
