@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
 import Nav from '@/components/Nav';
+import './styles.css'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
+      <body style={{ minHeight: '100vh'}}>
         <Nav />
-        <div className="flex justify-center items-center p-24">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '24px' }}>
         {children}
         </div>
       </body>
