@@ -11,11 +11,11 @@ const LoginForm: React.FC = () => {
   
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
     if (token) {
       setLoggedIn(true);
 
-      let roling = localStorage.getItem('role');
+      let roling = Cookies.get('role');
       console.log(roling)
     }
   }, []);
@@ -32,11 +32,12 @@ const LoginForm: React.FC = () => {
       // // console.log(token)
       // console.log(response.data)
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', response.data.role)
+      Cookies.set('token', token);
+      Cookies.set('role', response.data.role)
+      Cookies.set('id', response.data.id)
 
       setLoggedIn(true);
-      // window.location.reload();
+      window.location.reload();
 
     } catch (error) {
       console.error('Login failed:', error);
@@ -44,8 +45,8 @@ const LoginForm: React.FC = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    Cookies.remove('token');
+    Cookies.remove('role');
     setLoggedIn(false);
     window.location.reload();
   };

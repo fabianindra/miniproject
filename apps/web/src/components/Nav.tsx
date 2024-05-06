@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
+import Cookies from "js-cookie";
 
 export default function Nav() {
     const [userRole, setUserRole] = useState<string | undefined>(undefined)
   
     useEffect(() => {
-      const role = localStorage.getItem('role');
+      const role = Cookies.get('role');
       setUserRole(role as string);
     }, []);
 
