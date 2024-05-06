@@ -2,14 +2,14 @@ import express, { Application, Response, Request } from "express";
 import bodyParser from "express"
 import cors from "cors"
 import dotenv from "dotenv"
-import { verifyToken, adminGuard } from "./middleware/auth.middleware";
 import cookieParser from 'cookie-parser';
 
 
 import authRouter from "./routers/auth.router"
-import userRouter from "./routers/auth.router"
+import userRouter from "./routers/user.router"
 import eventRouter from "./routers/event.router"
 import pointsRouter from "./routers/points.router";
+import verifyRouter from "./routers/verify.router";
 
 dotenv.config()
 
@@ -24,12 +24,7 @@ app.use("/api/auth", authRouter)
 app.use("/api/users", userRouter)
 app.use("/api/events", eventRouter)
 app.use("/api/points", pointsRouter)
-
-// For routes that require authentication
-app.use('/api/authenticated-route', verifyToken);
-// For routes that require admin access
-app.use('/api/admin-route', verifyToken, adminGuard);
-
+app.use("/api/verify-token", verifyRouter)
 
 const PORT = 6570
 

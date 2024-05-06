@@ -1,22 +1,21 @@
-export const verifyTokenClient = async (token: string | undefined) => {
+import Cookies from "js-cookie";
+import axios from 'axios'
+
+export const verifyTokenClient = async () => {
+    const tokenToVerify = Cookies.get('token');
+
     try {
-        if (!token) {
+        if (!tokenToVerify) {
             return false;
         }
 
-        const response = await fetch('http://localhost:6570/api/authenticated-route', {
-            method: 'POST',
+        const response = await axios.post('http://localhost:6570/api/verify-token', null, {  
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
+                Authorization: `Bearer ${tokenToVerify}`
+             } 
         });
-
-        if (!response.ok) {
-            throw new Error('Failed to verify token');
-        }
-
-        return true
+        
+        return response.status === 200;
     } catch (error) {
         console.error('Token verification failed:', error);
         return false;

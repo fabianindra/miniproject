@@ -15,7 +15,7 @@ const LoginForm: React.FC = () => {
     if (token) {
       setLoggedIn(true);
 
-      let roling = Cookies.get('role');
+      let roling = Cookies.get('id');
       console.log(roling)
     }
   }, []);
@@ -32,9 +32,9 @@ const LoginForm: React.FC = () => {
       // // console.log(token)
       // console.log(response.data)
 
-      Cookies.set('token', token);
-      Cookies.set('role', response.data.role)
-      Cookies.set('id', response.data.id)
+      Cookies.set('token', token, { expires: 1 });
+      Cookies.set('role', response.data.role, { expires: 1 })
+      Cookies.set('id', response.data.id, { expires: 1 })
 
       setLoggedIn(true);
       window.location.reload();

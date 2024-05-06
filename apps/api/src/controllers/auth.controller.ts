@@ -5,6 +5,7 @@ import { JwtPayload, sign } from 'jsonwebtoken';
 import generateReferralCode from "@/referralCode";
 
 type User = {
+    id: number;
     email: string;
     username: string;
     password: string;
@@ -141,7 +142,8 @@ export const login = async (req: Request, res: Response) => {
             message: "success",
             data: user,
             token: token,
-            role: user.role
+            role: user.role,
+            id: user.id
         });
     } catch (err) {
         return res.send({
