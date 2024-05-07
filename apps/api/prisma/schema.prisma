@@ -23,52 +23,60 @@ model User {
   refererCode   String
   role          String   @default("user")
   discount      Int?
-  posts         Post[]
   events        Event[]
   points        Points[]
   transactions  Transaction[]
+  comments      Comments[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
 
 model Transaction {
-  id        Int     @id @default(autoincrement())
-  user      User    @relation(fields: [userId], references: [id])
-  userId    Int
-  event     Event?  @relation(fields: [eventId], references: [id])
-  eventId   Int?    
-  points    Points  @relation(fields: [pointsId], references: [id])
-  pointsId  Int
-  createdAt DateTime @default(now())
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  title     String
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int     @id @default(autoincrement())
+  user          User    @relation(fields: [userId], references: [id])
+  userId        Int
+  event         Event?  @relation(fields: [eventId], references: [id])
+  eventId       Int?    
+  points        Points  @relation(fields: [pointsId], references: [id])
+  pointsId      Int
+  checkOut      Int
+  createdAt     DateTime @default(now())
 }
 
 model Event {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  title     String
-  date      DateTime
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+  title         String
+  date          DateTime
+  price         Int?     @default(0)
+  location      String?  @default("")
+  description   String?  @default("")
+  seats         Int?     @default(0)
+  rate          Int?     @default(0)
   transactions  Transaction[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  comments      Comments[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Points {
-  id              Int       @id @default(autoincrement())
-  user            User      @relation(fields: [userId], references: [id])
-  userId          Int
-  amount          Int   
-  changeType      String
-  transactions    Transaction[]
-  createdAt       DateTime  @default(now())
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [userId], references: [id])
+  userId         Int
+  amount         Int   
+  changeType     String
+  transactions   Transaction[]
+  createdAt      DateTime  @default(now())
+}
+
+model Comments {
+  id             Int       @id @default(autoincrement())
+  user           User      @relation(fields: [userId], references: [id])
+  userId         Int
+  event          Event     @relation(fields: [eventId], references: [id])
+  eventId        Int
+  comment        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

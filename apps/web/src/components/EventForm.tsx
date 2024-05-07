@@ -7,12 +7,20 @@ import Cookies from 'js-cookie';
 interface FormData {
   title: string;
   date: string;
+  price: number,
+  location: string,
+  description: string,
+  seats: number
 }
 
 const EventForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     date: '',
+    price: 0,
+    location: '',
+    description: '',
+    seats: 100
   });
 
   const [successMessage, setSuccessMessage] = useState<string>('');
@@ -21,6 +29,10 @@ const EventForm: React.FC = () => {
   const id = Cookies.get('id');
   const title = formData.title;
   const date = formData.date;
+  const price = formData.price;
+  const location = formData.location;
+  const description = formData.description;
+  const seats = formData.seats;
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -47,9 +59,11 @@ const EventForm: React.FC = () => {
     try {
 
         //check request sent
-        console.log('Request being sent to backend:', { id, title, date });
+        console.log('Request being sent to backend:', { id, title, date, price, location, description, seats });
         
-      const response = await axios.post('http://localhost:6570/api/events', { id, title, date } );
+      const response = await axios.post('http://localhost:6570/api/events', { 
+        id, title, date, price, location, description, seats 
+      });
 
       if (response) {setSuccessMessage('Registration successful.')}
       else {setErrorMessage('')};
@@ -74,6 +88,22 @@ const EventForm: React.FC = () => {
       <div>
         <label htmlFor="date">Date of Event:   </label>
         <input type="date" id="date" name="date" value={formData.date.toString()} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="price">Ticket Price:   </label>
+        <input type="text" id="price" name="price" value={formData.price} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="location">Event Location: </label>
+        <input type="text" id="location" name="location" value={formData.location} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="description">What the Event is:   </label>
+        <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
+      </div>
+      <div>
+        <label htmlFor="seats">Available Seats: </label>
+        <input type="number" id="seats" name="seats" value={formData.seats} onChange={handleChange} />
       </div>
     
       <br />

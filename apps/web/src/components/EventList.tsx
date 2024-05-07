@@ -8,6 +8,10 @@ interface Event {
   id: number;
   title: string;
   date: string;
+  price: number,
+  location: string,
+  description: string,
+  seats: number
 }
 
 const EventList: React.FC = () => {
@@ -52,12 +56,15 @@ const EventList: React.FC = () => {
 
     if (filteredEvents.length > 0) {
       content = (
-        <ul>
+        <ul style={{ listStyleType: 'none', padding: 0 }}>
           {filteredEvents.map((upcomingEvent) => (
             <li key={upcomingEvent.id} style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{upcomingEvent.title}</p>
               <p style={{ color: '#666' }}>{upcomingEvent.date}</p>
-              {/* Add more event details here */}
+              <p style={{ fontSize: '1rem' }}>{upcomingEvent.price}</p>
+              <p style={{ fontSize: '1rem' }}>{upcomingEvent.location}</p>
+              <p style={{ fontSize: '1rem' }}>{upcomingEvent.description}</p>
+              <p style={{ fontSize: '1rem' }}>{upcomingEvent.seats}</p>
             </li>
           ))}
         </ul>

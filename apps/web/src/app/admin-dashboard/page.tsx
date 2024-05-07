@@ -1,6 +1,7 @@
 import EventForm from "@/components/EventForm";
 import React from "react";
 import Image from "next/image";
+import OrganizerEventList from "@/components/OrganizerEventList";
 
 export default function DashboardPage() {
     return (
@@ -10,6 +11,8 @@ export default function DashboardPage() {
             Organizer Dashboard
         </h1>
         <EventForm />
+        <h3 style={{marginTop: '50px', background: 'white', color:'black'}}>Event Registered</h3>
+        <OrganizerEventList />
         </div>
     )
 }
