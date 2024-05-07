@@ -5,6 +5,7 @@ const eventRouter = Router()
 
 eventRouter.get("/", eventController.getAllEvents)
 eventRouter.get("/org", eventController.getOrgEvents)
+eventRouter.get("/details", eventController.getOneEvent)
 eventRouter.post("/", eventController.createEvents)
 
 export default eventRouter

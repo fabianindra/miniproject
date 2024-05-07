@@ -9,7 +9,7 @@ type Event = {
     price: string,
     location: string,
     description: string,
-    seats: string
+    seat: string
 }
 
 const prisma = new PrismaClient()
@@ -54,6 +54,30 @@ export async function getOrgEvents(req: Request, res: Response) {
     }
 }
 
+export async function getOneEvent(req: Request, res: Response) {
+    try {
+
+        const requestId = parseInt(req.query.id as string, 10); 
+
+        const events = await prisma.event.findFirst({
+            where: {
+                id: requestId
+            }
+        });
+
+        return res.send({
+            message: "success",
+            data: events
+        })
+
+    } catch (err) {
+        return res.send({
+            message: JSON.stringify(err)
+        })
+    }
+}
+
+
 export async function createEvents(req: Request, res: Response) {
     try {
         const body : Event = req.body;
@@ -68,7 +92,7 @@ export async function createEvents(req: Request, res: Response) {
                 price: parseInt(body.price, 10),
                 location: body.location,
                 description: body.description,
-                seats: parseInt(body.seats, 10)
+                seat: parseInt(body.seat, 10)
             },
         });
 

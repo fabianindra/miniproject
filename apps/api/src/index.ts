@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from "./routers/auth.router"
 import userRouter from "./routers/user.router"
 import eventRouter from "./routers/event.router"
-import pointsRouter from "./routers/points.router";
+import pointRouter from "./routers/point.router";
 import verifyRouter from "./routers/verify.router";
 
 dotenv.config()
@@ -23,7 +23,7 @@ app.use(bodyParser.json())
 app.use("/api/auth", authRouter)
 app.use("/api/users", userRouter)
 app.use("/api/events", eventRouter)
-app.use("/api/points", pointsRouter)
+app.use("/api/points", pointRouter)
 app.use("/api/verify-token", verifyRouter)
 
 const PORT = 6570

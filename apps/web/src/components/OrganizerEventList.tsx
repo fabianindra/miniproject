@@ -11,7 +11,7 @@ interface Event {
   price: number;
   location: string;
   description: string;
-  seats: number;
+  seat: number;
 }
 
 const OrganizerEventList: React.FC = () => {
@@ -48,7 +48,7 @@ const OrganizerEventList: React.FC = () => {
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.price}</p>
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.location}</p>
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.description}</p>
-            <p style={{ fontSize: '1rem' }}>{upcomingEvent.seats}</p>
+            <p style={{ fontSize: '1rem' }}>{upcomingEvent.seat}</p>
           </li>
         ))}
       </ul>

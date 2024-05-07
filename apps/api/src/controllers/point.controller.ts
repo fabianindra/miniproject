@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export const fetchRowByIdAndCount = async (req: Request, res: Response) => {
     try {
         const id = req.params.id; // Assuming ID is passed as a route parameter
-        const rows = await prisma.points.findMany({
+        const rows = await prisma.point.findMany({
             where: {
                 id: parseInt(id), // Assuming ID is of type number
             }

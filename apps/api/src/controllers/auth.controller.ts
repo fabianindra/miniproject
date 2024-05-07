@@ -30,7 +30,7 @@ type UserModel = {
     updatedAt: Date;
 }
 
-type Points = {
+type Point = {
     userId: number;
     amount: number;
     changeType: string;
@@ -53,7 +53,7 @@ export const register = async (req: Request, res: Response) => {
                 if (!referralUser) {
                     return res.status(400).json({ error: 'Invalid referral code' });
                 } else {
-                    await prisma.points.create({
+                    await prisma.point.create({
                         data: {
                             userId: referralUser.id,
                             amount: 10000,
