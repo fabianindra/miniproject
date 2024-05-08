@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Point` MODIFY `rupiah` INTEGER NOT NULL DEFAULT 0;

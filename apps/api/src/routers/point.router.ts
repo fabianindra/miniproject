@@ -1,8 +1,9 @@
 import { Router } from "express";
 import * as pointController from "../controllers/point.controller"
 
-const pointsRouter = Router()
+const pointRouter = Router()
 
-pointsRouter.get("/:id", pointController.fetchRowByIdAndCount)
+pointRouter.get("/:id", pointController.fetchRowByIdAndCount)
+pointRouter.post("/submit_rupiah", pointController.inputRupiah)
 
-export default pointsRouter
+export default pointRouter

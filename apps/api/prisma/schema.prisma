@@ -64,7 +64,8 @@ model Point {
   id             Int       @id @default(autoincrement())
   user           User      @relation(fields: [userId], references: [id])
   userId         Int
-  amount         Int   
+  amount         Int
+  rupiah         Int       @default(0)  
   changeType     String
   transactions   Transaction[]
   createdAt      DateTime  @default(now())
