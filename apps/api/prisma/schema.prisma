@@ -37,8 +37,8 @@ model Transaction {
   userId        Int
   event         Event?  @relation(fields: [eventId], references: [id])
   eventId       Int?    
-  points        Point  @relation(fields: [pointsId], references: [id])
-  pointsId      Int
+  points        Point?  @relation(fields: [pointsId], references: [id])
+  pointsId      Int?
   checkOut      Int
   createdAt     DateTime @default(now())
 }

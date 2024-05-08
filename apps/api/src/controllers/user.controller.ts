@@ -31,7 +31,10 @@ export const getRefCode = async (req: Request, res: Response) => {
         });
         if (ref) {
             return res.send({
-                data: ref.code
+                data: {
+                    refCode: ref.code,
+                    discount: ref.discount
+                }
             })
         } else {
             return res.status(404).json({ error: 'User not found' });

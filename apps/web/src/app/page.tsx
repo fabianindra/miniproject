@@ -11,7 +11,7 @@ export default function Home() {
           Break Event Point
         </h1>
         <p style={{ color: 'white', position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-          your most trusted event hub
+          breaking news about events, with on point info
         </p>
         <Image src={"/abstract.jpg"} alt='' width={1080} height={450} style={{ zIndex: 0 }} />
       </div>

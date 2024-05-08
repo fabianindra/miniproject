@@ -54,6 +54,41 @@ export async function getOrgEvents(req: Request, res: Response) {
     }
 }
 
+export async function getUserEvents(req: Request, res: Response) {
+    try {
+        const requestId = parseInt(req.query.id as string, 10); 
+
+        const eventTickets = await prisma.transaction.findMany({
+            where: {
+                userId: requestId
+            }
+        });
+
+        const eventIds = eventTickets.map(ticket => ticket.eventId).filter(id => id !== null) as number[];
+
+        const events = await prisma.event.findMany({
+            where: {
+                id: {
+                    in: eventIds
+                }
+            }
+        });
+
+        return res.send({
+            message: "success",
+            data: events
+        });
+
+    } catch (err: any) {
+        return res.status(500).send({
+            message: "Internal server error",
+            error: err.toString()
+        });
+    }
+}
+
+
+
 export async function getOneEvent(req: Request, res: Response) {
     try {
 

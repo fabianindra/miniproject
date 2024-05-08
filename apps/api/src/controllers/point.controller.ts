@@ -19,11 +19,17 @@ export const fetchRowByIdAndCount = async (req: Request, res: Response) => {
             }
         });
 
+        const now = new Date();
+        const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000); // 90 days ago
+
         let totalAmount = 0;
         let totalRupiah = 0;
+
         rows.forEach(row => {
-            totalAmount += row.amount;
             totalRupiah += row.rupiah;
+            if (new Date(row.createdAt) >= ninetyDaysAgo) {
+                totalAmount += row.amount;
+            }
         });
 
         return res.status(200).json({ totalAmount, totalRupiah });

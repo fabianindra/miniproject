@@ -6,13 +6,15 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import axios from 'axios';
 import Image from "next/image";
+import UserTicketList from "@/components/UserTicketList";
 
 const DashboardPage: React.FC = () => {
     const [verified, setVerified] = useState(false);
     const [point, setPoint] = useState<number | null>(null);
     const [rupiah, setRupiah] = useState<number | null>(null);
     const [refCode, setRefCode] = useState('')
-    const [rupiahAdd, setRupiahAdd] = useState<number>(0);
+    const [discount, setDiscount] = useState('')
+    const [rupiahAdd, setRupiahAdd] = useState<number>();
     
     const id = Cookies.get('id')
 
@@ -54,10 +56,12 @@ const DashboardPage: React.FC = () => {
             const fetchRefCode = async () => {
                 try {
                     const response = await axios.get(`http://localhost:6570/api/users/${id}`);
-                    setRefCode(response.data.data)
+                    setRefCode(response.data.data.refCode)
+                    setDiscount(response.data.data.discount)
 
                     //check response
-                    console.log(response.data.data)
+                    console.log(response.data.data.refCode)
+                    console.log(response.data.data.discount)
                 } catch (error) {
                     console.error('Error fetching code:', error)
                 }
@@ -90,41 +94,55 @@ const DashboardPage: React.FC = () => {
             );
         } else { 
             return (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Image src={"/abstract3.jpg"} alt='' width={1080} height={200} style={{ zIndex: 0, objectFit: 'cover' }} />
-                <h1 style={{position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1}}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <Image src={"/abstract3.jpg"} alt='' width={1080} height={200} style={{ zIndex: 0, objectFit: 'cover' }} />
+                  <h1 style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
                     Participant Dashboard
-                </h1>
-
-                <div style={{ background: 'white', width: '25%' }}>
-                <p style={{ color: 'black' }}>Referral Code: </p>
-                </div>
-                <h1>{refCode}</h1>
-                <div style={{ background: 'white', width: '25%' }}>
-                <p style={{ color: 'black' }}>Member Point: </p>
-                </div>
-                <h1>{point !== null ? point : 0}</h1>
-                <div style={{ background: 'white', width: '25%' }}>
-                <p style={{ color: 'black' }}>IDR </p>
-                </div>
-                <h1>{rupiah !== null ? rupiah : 0}</h1>
-
-                 {/* Form for entering Rupiah amount */}
-                 <form onSubmit={handleSubmit}>
-                    <div style={{ background: 'blue', width: '25%' }}>
-                        <p style={{ color: 'black' }}>Enter Rupiah Amount:</p>
-                        <input
-                            type="number"
-                            value={rupiahAdd}
-                            onChange={(e) => setRupiahAdd(Number(e.target.value))}
-                            min={0}
-                            required
-                        />
+                  </h1>
+              
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'white', width: '30%', padding: '10px' }}>
+                      <p style={{ color: 'black' }}>Referral Code: </p>
+                      <h3 style={{ color: 'black' }}>{refCode}</h3>
                     </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-            );
-        }}
+              
+                    <div style={{ background: 'white', width: '30%', padding: '10px' }}>
+                      <p style={{ color: 'black' }}>Member Point: </p>
+                      <h3 style={{ color: 'black' }}>{point !== null && point >= 0 ? point : 0}</h3>
+                    </div>
+              
+                    <div style={{ background: 'white', width: '30%', padding: '10px' }}>
+                      <p style={{ color: 'black' }}>Balance: </p>
+                      <h3 style={{ color: 'black' }}>IDR {rupiah !== null ? rupiah : 0}</h3>
+                    </div>
+                  </div>
+              
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ background: 'white', width: '30%', padding: '10px' }}>
+                      <p style={{ color: 'black' }}>Discount Coupon: </p>
+                      <h3 style={{ color: 'black' }}>{discount !== null ? discount : 0}%</h3>
+                    </div>
+              
+                    <form onSubmit={handleSubmit} style={{ background: 'khaki', width: '30%', padding: '10px' }}>
+                      <p style={{ color: 'black' }}>Enter Rupiah Amount:</p>
+                      <input
+                        type="number"
+                        value={rupiahAdd}
+                        onChange={(e) => setRupiahAdd(Number(e.target.value))}
+                        min={0}
+                        required
+                      />
+                      <button type="submit">Submit</button>
+                    </form>
+                  </div>
+                  <br />
+              
+                  <h2 style={{ marginTop: '50px', background: 'maroon', padding: '10px' }}>Upcoming Shows</h2>
+                  <p>you already have the tickets to these events :</p>
+                  <UserTicketList />
+                </div>
+              );              
+        }
+    }
 
 export default DashboardPage;
