@@ -18,8 +18,15 @@ const UserTicketList: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const userId = Cookies.get('id')
 
-//   //check ID sent
-//   console.log(userId)
+  const formatDate = (dateString: string) => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const date = new Date(dateString);
+    const dayName = daysOfWeek[date.getDay()];
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+    return `${dayName}, ${day} ${month} ${year}`;
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -44,7 +51,7 @@ const UserTicketList: React.FC = () => {
         {events.map((upcomingEvent) => (
           <li key={upcomingEvent.id} style={{ borderBottom: '1px solid #ccc', padding: '8px 0' }}>
             <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{upcomingEvent.title}</p>
-            <p style={{ color: '#666' }}>{upcomingEvent.date}</p>
+            <p style={{ color: '#666' }}>{formatDate(upcomingEvent.date)}</p>
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.location}</p>
           </li>
         ))}

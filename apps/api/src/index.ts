@@ -11,6 +11,7 @@ import eventRouter from "./routers/event.router"
 import pointRouter from "./routers/point.router";
 import verifyRouter from "./routers/verify.router";
 import transactionRouter from "./routers/transaction.router";
+import commentRouter from "./routers/comment.router";
 
 dotenv.config()
 
@@ -27,6 +28,7 @@ app.use("/api/events", eventRouter)
 app.use("/api/points", pointRouter)
 app.use("/api/transaction", transactionRouter)
 app.use("/api/verify-token", verifyRouter)
+app.use("/api/comment", commentRouter)
 
 const PORT = 6570
 

@@ -39,14 +39,11 @@ export const buyTicket = async (req: Request, res: Response) => {
             totalDiscount += user.discount ?? 0
         })
 
-        // Calculate totalRupiah before applying discount
         let totalRupiahBeforeDiscount = ticketBought.price - totalAmount;
-
-        // Calculate totalRupiah after applying discount as a percentage
         let totalRupiahAfterDiscount = totalRupiahBeforeDiscount - (totalRupiahBeforeDiscount * (totalDiscount / 100));
 
         if (totalRupiahAfterDiscount < 0) {
-            return res.status(400).json({ error: 'Insufficient rupiah' });
+            throw new Error('Insufficient rupiah');
         }
 
         const newTransaction: Transaction = {
@@ -55,18 +52,25 @@ export const buyTicket = async (req: Request, res: Response) => {
             checkOut: parseInt(ticketBought.price)
         };
 
-        await prisma.transaction.create({
-            data: newTransaction
-        });
+        if (totalAmount >= 0) {
+            await prisma.transaction.create({
+                data: newTransaction
+            });
 
-        await prisma.point.create({
-            data: {
-                userId: parseInt(ticketBought.id),
-                amount: -totalAmount,
-                rupiah: -totalRupiahAfterDiscount,
-                changeType: 'out'
-            }
-        });
+            await prisma.point.create({
+                data: {
+                    userId: parseInt(ticketBought.id),
+                    amount: -totalAmount,
+                    rupiah: -totalRupiahAfterDiscount,
+                    changeType: 'out'
+                }
+            });
+
+            await prisma.user.update({
+                where: { id: userId },
+                data: { discount: 0 }
+            });
+        }
     } catch (error) {
         console.error('Error input transaction')
         return res.status(500).json({ error: 'Internal Server Error' });

@@ -20,7 +20,7 @@ export const fetchRowByIdAndCount = async (req: Request, res: Response) => {
         });
 
         const now = new Date();
-        const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000); // 90 days ago
+        const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
 
         let totalAmount = 0;
         let totalRupiah = 0;

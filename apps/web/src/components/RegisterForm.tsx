@@ -33,7 +33,6 @@ const RegisterForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // console.log("Role:", formData.role)
       const response = await axios.post('http://localhost:6570/api/auth/register', formData);
       console.log(response.data);
       setSuccessMessage('Registration successful.');

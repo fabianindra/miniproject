@@ -27,11 +27,6 @@ const LoginForm: React.FC = () => {
       const response = await axios.post('http://localhost:6570/api/auth/login', { email, password });
       const { token } = response.data;
 
-      // //check response
-      // // console.log(response.data)
-      // // console.log(token)
-      // console.log(response.data)
-
       Cookies.set('token', token, { expires: 1 });
       Cookies.set('role', response.data.role, { expires: 1 })
       Cookies.set('id', response.data.id, { expires: 1 })

@@ -21,12 +21,45 @@ export async function getAllUsers(req: Request, res: Response) {
     }
 }
 
+export async function getUserName(req: Request, res: Response) {
+    try {
+        const userId = parseInt(req.query.userId as string);
+
+        const user = await prisma.user.findFirst({
+            where: {
+                id: userId
+            },
+            select: {
+                username: true // Select only the username field
+            }
+        });
+
+        if (!user) {
+            return res.status(404).send({
+                message: "User not found"
+            });
+        }
+
+        return res.send({
+            message: "get username",
+            data: user.username // Send only the username
+        });
+    }
+
+    catch (err:any) {
+        return res.status(500).send({
+            message: err.message // Sending error message
+        });
+    }
+}
+
+
 export const getRefCode = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id); // Assuming ID is passed as a route parameter
+        const id = parseInt(req.params.id);
         const ref = await prisma.user.findFirst({
             where: {
-                id: id, // Assuming ID is of type number
+                id: id,
             }
         });
         if (ref) {

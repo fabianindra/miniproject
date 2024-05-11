@@ -41,10 +41,6 @@ const DashboardPage: React.FC = () => {
                     const response = await axios.get(`http://localhost:6570/api/points/${id}`);
                     setPoint(response.data.totalAmount);
                     setRupiah(response.data.totalRupiah);
-
-                    //check response
-                    console.log(response.data.totalAmount)
-                    console.log(response.data.totalRupiah)
                 } catch (error) {
                     console.error('Error fetching point:', error);
                 }
@@ -58,10 +54,6 @@ const DashboardPage: React.FC = () => {
                     const response = await axios.get(`http://localhost:6570/api/users/${id}`);
                     setRefCode(response.data.data.refCode)
                     setDiscount(response.data.data.discount)
-
-                    //check response
-                    console.log(response.data.data.refCode)
-                    console.log(response.data.data.discount)
                 } catch (error) {
                     console.error('Error fetching code:', error)
                 }
@@ -70,19 +62,16 @@ const DashboardPage: React.FC = () => {
         }, [id]);
 
         const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-    
-            try {
-                const response = await axios.post('http://localhost:6570/api/points/submit_rupiah', { id, rupiahAdd });
+          event.preventDefault();
+      
+          try {
+              const response = await axios.post('http://localhost:6570/api/points/submit_rupiah', { id, rupiahAdd });
 
-                console.log('Rupiah sent', rupiahAdd);
-
-                window.location.reload()
-
-            } catch (error) {
-                console.error('Error submitting Rupiah amount:', error);
-            }
-        };
+          } catch (error) {
+              console.error('Error submitting Rupiah amount:', error);
+          }
+      };
+      
 
         
         if (!verified) {
@@ -132,7 +121,7 @@ const DashboardPage: React.FC = () => {
                         min={0}
                         required
                       />
-                      <button type="submit">Submit</button>
+                      <button type="submit" onClick={() => window.location.reload()}>Submit</button>
                     </form>
                   </div>
                   <br />

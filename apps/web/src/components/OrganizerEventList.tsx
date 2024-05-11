@@ -28,9 +28,6 @@ const OrganizerEventList: React.FC = () => {
     return `${dayName}, ${day} ${month} ${year}`;
 };
 
-  //check ID sent
-  console.log(orgId)
-
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -53,7 +50,7 @@ const OrganizerEventList: React.FC = () => {
   const handleDeleteEvent = async (eventId: number) => {
     try {
       await axios.delete(`http://localhost:6570/api/events/delete/${eventId}`);
-      // Update the state to remove the deleted event
+    
       setEvents(events.filter(event => event.id !== eventId));
 
       window.location.reload();
@@ -75,7 +72,7 @@ const OrganizerEventList: React.FC = () => {
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.location}</p>
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.description}</p>
             <p style={{ fontSize: '1rem' }}>{upcomingEvent.seat}</p>
-            <button onClick={() => handleDeleteEvent(upcomingEvent.id)}>Delete Event</button>
+            <button onClick={() => handleDeleteEvent(upcomingEvent.id)}>Delete Event</button> 
           </li>
         ))}
       </ul>

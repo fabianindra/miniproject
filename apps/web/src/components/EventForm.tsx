@@ -57,10 +57,6 @@ const EventForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-
-        //check request sent
-        console.log('Request being sent to backend:', { id, title, date, price, location, description, seats });
-        
       const response = await axios.post('http://localhost:6570/api/events', { 
         id, title, date, price, location, description, seats 
       });
