@@ -142,3 +142,26 @@ export async function createEvents(req: Request, res: Response) {
         })
     }
 }
+
+export async function deleteEvent(req: Request, res: Response) {
+    try {
+        const eventId = parseInt(req.params.eventId, 10); // Assuming eventId is passed as a route parameter
+
+        const deletedEvent = await prisma.event.delete({
+            where: {
+                id: eventId,
+            },
+        });
+
+        return res.send({
+            message: "success",
+            data: deletedEvent
+        });
+
+    } catch (err:any) {
+        return res.status(500).send({
+            message: "Error deleting event",
+            error: err.message
+        });
+    }
+}

@@ -31,7 +31,11 @@ const EventList: React.FC = () => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(`http://localhost:6570/api/events`);
-        setEvents(response.data.data);
+        
+        const sortedEvents = response.data.data.sort((a: Event, b: Event) => {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
+        setEvents(sortedEvents);
       } catch (error) {
         console.error('Error fetching events:', error);
       }

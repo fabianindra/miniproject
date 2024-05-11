@@ -67,6 +67,8 @@ const EventForm: React.FC = () => {
 
       if (response) {setSuccessMessage('Registration successful.')}
       else {setErrorMessage('')};
+
+      window.location.reload();
     } catch (error) {
       console.error('Registration failed:', error);
       setSuccessMessage('');
