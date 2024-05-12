@@ -10,7 +10,7 @@ interface FormData {
   price: number,
   location: string,
   description: string,
-  seats: number
+  seat: number
 }
 
 const EventForm: React.FC = () => {
@@ -20,7 +20,7 @@ const EventForm: React.FC = () => {
     price: 0,
     location: '',
     description: '',
-    seats: 100
+    seat: 100
   });
 
   const [successMessage, setSuccessMessage] = useState<string>('');
@@ -32,7 +32,7 @@ const EventForm: React.FC = () => {
   const price = formData.price;
   const location = formData.location;
   const description = formData.description;
-  const seats = formData.seats;
+  const seat = formData.seat;
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -58,7 +58,7 @@ const EventForm: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:6570/api/events', { 
-        id, title, date, price, location, description, seats 
+        id, title, date, price, location, description, seat 
       });
 
       if (response) {setSuccessMessage('Registration successful.')}
@@ -100,8 +100,8 @@ const EventForm: React.FC = () => {
         <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
       </div>
       <div>
-        <label htmlFor="seats">Available Seats: </label>
-        <input type="number" id="seats" name="seats" value={formData.seats} onChange={handleChange} />
+        <label htmlFor="seat">Available Seats: </label>
+        <input type="number" id="seat" name="seat" value={formData.seat} onChange={handleChange} />
       </div>
     
       <br />

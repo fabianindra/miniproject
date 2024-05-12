@@ -30,7 +30,7 @@ export async function getUserName(req: Request, res: Response) {
                 id: userId
             },
             select: {
-                username: true // Select only the username field
+                username: true
             }
         });
 
@@ -42,7 +42,7 @@ export async function getUserName(req: Request, res: Response) {
 
         return res.send({
             message: "get username",
-            data: user.username // Send only the username
+            data: user.username
         });
     }
 

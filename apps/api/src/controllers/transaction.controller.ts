@@ -20,6 +20,7 @@ export const buyTicket = async (req: Request, res: Response) => {
     try {
         const ticketBought = req.body;
         const userId = parseInt(ticketBought.id);
+        const eventId = parseInt(ticketBought.eventId)
         
         const pointData = await prisma.point.findMany({
             where: { userId: userId }
@@ -69,6 +70,11 @@ export const buyTicket = async (req: Request, res: Response) => {
             await prisma.user.update({
                 where: { id: userId },
                 data: { discount: 0 }
+            });
+
+            await prisma.event.update({
+                where: { id: eventId },
+                data: { seat: {decrement: 1}  }
             });
         }
     } catch (error) {
